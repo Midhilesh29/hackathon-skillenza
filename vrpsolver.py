@@ -48,7 +48,7 @@ class VrpSolver():
             plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                     route_load)
             json_data['vehicle'][vehicle_number]['route_path'].append(manager.IndexToNode(index))
-            plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+            plan_output += 'Distance of the route: {}km\n'.format(route_distance)
             plan_output += 'Load of the route: {}\n'.format(route_load)
             print(plan_output)
             total_distance += route_distance
@@ -131,5 +131,6 @@ class VrpSolver():
             json_data = self.print_solution(data, manager, routing, solution)
             print("\nJSON Data:")
             print(json_data)
+            return(json_data)
         else:
             print("Solution doesn't exist")
