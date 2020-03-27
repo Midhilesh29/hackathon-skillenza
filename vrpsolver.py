@@ -3,6 +3,8 @@
 from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
+from functools import partial
+
 
 class VrpSolver():
     def __init__(self, penality=1000, maxRunningTime=30):
@@ -88,6 +90,15 @@ class VrpSolver():
 
         # Define cost of each arc.
         routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
+
+        def vehicle_distance_callback(vehicle, from_index, to_index):
+    	    from_node = manager.IndexToNode(from_index)
+    	    to_node = manager.IndexToNode(to_index)
+    	    return data['distance_matrix'][from_node][to_node]*data['vehicle_costs'][vehicle]
+        vehicle_transits = [routing.RegisterTransitCallback(partial(vehicle_distance_callback,v)) for v in range(0,data['num_vehicles'])]
+        vehicle_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_transits, range(0, data['num_vehicles']))]
+        routing.AddDimensionWithVehicleTransits(vehicle_transits,0, 300000, True, "Cost")
+        cost_dimension = routing.GetDimensionOrDie("Cost")
 
 
         # Add Capacity constraint.
