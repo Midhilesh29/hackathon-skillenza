@@ -7,6 +7,7 @@ from ortools.constraint_solver import pywrapcp
 
 class vprSolver():
     def __init__(self, penality=1000, maxRunningTime=30):
+        
         '''
         penality (type:int, default:1000)
         --------------------------------
