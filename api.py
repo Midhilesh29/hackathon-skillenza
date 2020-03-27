@@ -27,7 +27,8 @@ def get_solution(Input):
   }
 
   #Getting distance matrix
-  distance_matrix = get_distance_matrix(location_data)
+  length = len(lat_long)
+  distance_matrix = get_distance_matrix(location_data,length)
 
 
   data={}
