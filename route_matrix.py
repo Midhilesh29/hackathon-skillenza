@@ -13,29 +13,21 @@ link = "https://atlas.microsoft.com/route/matrix/json?subscription-key=8Gc_brD9C
 data = {
   "origins": {
     "type": "MultiPoint",
-    "coordinates": [
-      [
-        4.85106,
-        52.36006
-      ],
-      [
-        4.85056,
-        52.36187
-      ]
-    ]
+    "coordinates": [[19.155001,72.849998],
+                    [24.7945,73.055],
+                    [26.85,80.949997],
+                    [19.07609,72.877426],
+                    [14.16704,75.040298],
+                    [26.540457,88.719391]]
   },
   "destinations": {
     "type": "MultiPoint",
-    "coordinates": [
-      [
-        4.85003,
-        52.36241
-      ],
-      [
-        13.42937,
-        52.50931
-      ]
-    ]
+    "coordinates": [[19.155001,72.849998],
+                    [24.7945,73.055],
+                    [26.85,80.949997],
+                    [19.07609,72.877426],
+                    [14.16704,75.040298],
+                    [26.540457,88.719391]]
   }
 }
 def get_distance_matrix(data):
@@ -43,6 +35,11 @@ def get_distance_matrix(data):
   if r.status_code == 202:
     result = requests.get(r.headers['Location'])
     matrix = loads(result.text)
+    print(matrix)
+    for i in range(6):
+      for j in range(6):
+        print(matrix['matrix'][i][j]['response']['routeSummary']['lengthInMeters'])
+      print("\n")
     return matrix
   else:
     raise ValueError(r.content)
