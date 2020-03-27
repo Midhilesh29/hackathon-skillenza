@@ -8,7 +8,7 @@ def get_solution(Input):
   depot = []
   for index, values in enumerate(Input['distribution_pts']):
     lat_long.append(values['coordinates'])
-    demand.append(index)
+    depot.append(index)
     vehicle_capacity.extend(values['vehicle_capacity'])
   for index, values in enumerate(Input['delivery_pts']):
     lat_long.append(values['coordinates'])
