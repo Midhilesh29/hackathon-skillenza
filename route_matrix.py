@@ -13,8 +13,7 @@ import copy
 
 link = "https://atlas.microsoft.com/route/matrix/json?subscription-key=8Gc_brD9CgHHB6zUEea-qDdBREj_1Vs7BWztozsSjho&api-version=1.0&routeType=shortest"
 
-def get_distance_matrix(location_data):
-  len = 17
+def get_distance_matrix(location_data,len):
   r = requests.post(link,json=location_data)
   if r.status_code == 202:
     result = requests.get(r.headers['Location'])
