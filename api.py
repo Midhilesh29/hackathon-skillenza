@@ -10,10 +10,14 @@ def get_solution(Input):
     demand = []
     vehicle_capacity = []
     depot = []
+    vehicle_cost = []
     for index, values in enumerate(Input['distribution_pts']):
         lat_long.append(values['coordinates'])
-        depot.append(index)
         vehicle_capacity.extend(values['vehicle_capacity'])
+        vehicle_cost.extend(values['vehicle_cost'])
+        for i in range(len(values['vehicle_capacity'])):
+            depot.append(index)
+        demand.append(0)
     for index, values in enumerate(Input['delivery_pts']):
         lat_long.append(values['coordinates'])
         demand.append(values['demand'])
@@ -30,14 +34,13 @@ def get_solution(Input):
     }
   }
     df = pd.DataFrame(lat_long, columns = ['lon', 'lat'])
-    return(location_data,demand,vehicle_capacity,depot,df,lat_long)
+    return(location_data,demand,vehicle_capacity,depot,df,lat_long,vehicle_cost)
 
 file_bytes = st.file_uploader("#Upload a JSON file", type=("json"))
 file_str = file_bytes.read()
 data = json.loads(file_str)
-location_data,demand,vehicle_capacity,depot,df,lat_long = get_solution(data)
+location_data,demand,vehicle_capacity,depot,df,lat_long,vehicle_cost = get_solution(data)
 #Getting distance matrix
-df
 midpoint = (np.average(df['lat']), np.average(df['lon']))
 st.deck_gl_chart(
             viewport={
@@ -47,10 +50,17 @@ st.deck_gl_chart(
             },
             layers=[{
                 'type': 'ScatterplotLayer',
-                'data': df,
+                'data': df.iloc[:len(data['distribution_pts']),:],
                 'radiusScale': 250,
    'radiusMinPixels': 5,
                 'getFillColor': [248, 24, 148],
+            },
+	    {
+                'type': 'ScatterplotLayer',
+                'data': df.iloc[len(data['distribution_pts']):,:],
+                'radiusScale': 250,
+   'radiusMinPixels': 5,
+                'getFillColor': [0, 24, 113],
             }]
         )
 distance_matrix = get_distance_matrix(location_data, len(lat_long))
@@ -60,7 +70,9 @@ data['demands'] = demand
 data['vehicle_capacities'] = vehicle_capacity
 data['num_vehicles'] = len(vehicle_capacity)
 data['depot'] = depot
+data['vehicle_costs'] = vehicle_cost
 #define solver with penality as 5000 and 120seconds as maximum running time
-#solver = VrpSolver(5000,120)
-#output = solver.solve(data)
-#st.write('Result `%s`' % json.dumps(output))
+solver = VrpSolver(5000,120)
+output = solver.solve(data)
+st.title('Result:')
+st.write(output)
