@@ -110,7 +110,6 @@ def get_folium_map(df,output,lat_long,st):
         folium.PolyLine(locations=loc_p, color=color_list[count]).add_to(some_map)
         arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
         for route_path_index in range(1,len(output['vehicle'][vehicle_id]['route_path'])-1):
-            st.write(route_path_index)
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index]]
             loc = [loc[1],loc[0]]
             folium.Marker(location=loc,icon=folium.Icon(color=color_list[count]),popup="Delivery point").add_to(some_map)
