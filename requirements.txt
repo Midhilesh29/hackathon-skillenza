@@ -1,3 +1,6 @@
 ortools
 requests
-functools
+streamlit
+folium
+pandas
+uuid

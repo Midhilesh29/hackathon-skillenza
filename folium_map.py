@@ -7,6 +7,7 @@ import base64
 import codecs
 import json
 import random
+from uuid import uuid4
 f = open('colors.json',)
 color_list = list(json.load(f))
 
@@ -120,8 +121,9 @@ def get_folium_map(df,output,lat_long,st):
             arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
     for arrow in arrows:
         arrow.add_to(some_map)
-    some_map.save("test.html")
-    f=codecs.open("test.html", 'r')
+    fname = str(uuid4())+".html"
+    some_map.save(fname)
+    f=codecs.open(fname, 'r')
     b64 = base64.b64encode(f.read().encode()).decode()
     st.info('Download and open the Map (HTML file) in a browser')
     st.markdown('<a href="data:@file/html;base64,{}" download="map.html">Download the Map</a>'.format(b64), unsafe_allow_html=True)
