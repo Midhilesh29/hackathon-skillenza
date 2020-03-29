@@ -7,9 +7,9 @@ from functools import partial
 
 
 class VrpSolver():
+    '''
     def __init__(self, penality=1000, maxRunningTime=30):
 
-        '''
         penality (type:int, default:1000)
         --------------------------------
         If solution doesn't exist, then some of the distination should be left.
@@ -19,9 +19,9 @@ class VrpSolver():
         maxRunningTime (type:int, default:30seconds)
         -------------------------------------
         If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds) 
-        '''
         self.penality = penality
         self.maxRunningTime = maxRunningTime
+    '''
 
     def print_solution(self,data, manager, routing, solution):
         """Prints solution on console."""
@@ -36,6 +36,9 @@ class VrpSolver():
             vehicle_number = 'v'+str(vehicle_id)
             json_data['vehicle'][vehicle_number] = {}
             json_data['vehicle'][vehicle_number]['route_path'] = []
+            json_data['vehicle'][vehicle_number]['distance'] = []
+            json_data['vehicle'][vehicle_number]['capacity'] = data['vehicle_capacities'][vehicle_id]
+            json_data['vehicle'][vehicle_number]['cost'] = data['vehicle_costs'][vehicle_id]
             while not routing.IsEnd(index):
                 node_index = manager.IndexToNode(index)
                 json_data['vehicle'][vehicle_number]['route_path'].append(node_index)
@@ -43,8 +46,10 @@ class VrpSolver():
                 plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
                 previous_index = index
                 index = solution.Value(routing.NextVar(index))
+                json_data['vehicle'][vehicle_number]['distance'].append(routing.GetArcCostForVehicle(
+                    previous_index, index, vehicle_id)/data['vehicle_costs'][vehicle_id])
                 route_distance += routing.GetArcCostForVehicle(
-                    previous_index, index, vehicle_id)
+                    previous_index, index, vehicle_id)/data['vehicle_costs'][vehicle_id]
             json_data['vehicle'][vehicle_number]['route_distance'] = route_distance
             json_data['vehicle'][vehicle_number]['route_load'] = route_load
             plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
@@ -66,11 +71,13 @@ class VrpSolver():
     def solve(self, distanceMatrix, demandVector, depot, vehicleCapacityAtEachDepot)
     '''
 
-    def solve(self,data):
+    def solve(self,data, penality, maxRunningTime):
         """Solve the CVRP problem."""
         # Instantiate the data problem.
 
         # Create the routing index manager.
+        self.penality = penality
+        self.maxRunningTime = maxRunningTime
         manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                             data['num_vehicles'], data['depot'], data['depot'])
 
