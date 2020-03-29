@@ -1,32 +1,34 @@
 import pandas as pd
+from geocoding import get_lat_long
+
 
 def get_solution(Input):
-    lat_long=[]
+    distribution_address = []
+    delivery_address = []
     demand = []
     vehicle_capacity = []
     depot = []
     vehicle_cost = []
     for index, values in enumerate(Input['distribution_pts']):
-        lat_long.append(values['coordinates'])
+        distribution_address.append(values['address'])
         vehicle_capacity.extend(values['vehicle_capacity'])
         vehicle_cost.extend(values['vehicle_cost'])
         for i in range(len(values['vehicle_capacity'])):
             depot.append(index)
         demand.append(0)
     for index, values in enumerate(Input['delivery_pts']):
-        lat_long.append(values['coordinates'])
+        delivery_address.append(values['address'])
         demand.append(values['demand'])
-  
-  #Structure for getting distance data using azure map
-    location_data={
-    "origins":{
-      "type":"MultiPoint",
-      "coordinates":lat_long
-    },
-    "destinations":{
-      "type":"MultiPoint",
-      "coordinates":lat_long
-    }
-  }
-    df = pd.DataFrame(lat_long, columns = ['lon', 'lat'])
-    return(location_data,demand,vehicle_capacity,depot,df,lat_long,vehicle_cost)
+    # geocoding
+    distribution_address_data = get_lat_long(distribution_address)
+    delivery_address_data = get_lat_long(delivery_address)
+
+    unknown_address = list
+    unknown_address.append(distribution_address_data['unknown_address'])
+    unknown_address.append(delivery_address_data['unknown_address']) 
+   
+    lat_long = list()
+    lat_long.extend(distribution_address_data['lat_long'])
+    lat_long.extend(delivery_address_data['lat_long'])
+	
+    return(demand,vehicle_capacity,depot,lat_long,vehicle_cost,unknown_address)
