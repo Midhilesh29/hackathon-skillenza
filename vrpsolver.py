@@ -8,7 +8,7 @@ from functools import partial
 
 class VrpSolver():
     def __init__(self, penality=1000, maxRunningTime=30):
-
+        '''
         penality (type:int, default:1000)
         --------------------------------
         If solution doesn't exist, then some of the distination should be left.
@@ -17,7 +17,9 @@ class VrpSolver():
 
         maxRunningTime (type:int, default:30seconds)
         -------------------------------------
-        If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds) 
+        If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds)
+        '''
+         
         self.penality = penality
         self.maxRunningTime = maxRunningTime
 
