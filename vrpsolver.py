@@ -7,7 +7,6 @@ from functools import partial
 
 
 class VrpSolver():
-    '''
     def __init__(self, penality=1000, maxRunningTime=30):
 
         penality (type:int, default:1000)
@@ -21,7 +20,6 @@ class VrpSolver():
         If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds) 
         self.penality = penality
         self.maxRunningTime = maxRunningTime
-    '''
 
     def print_solution(self,data, manager, routing, solution):
         """Prints solution on console."""
@@ -71,13 +69,12 @@ class VrpSolver():
     def solve(self, distanceMatrix, demandVector, depot, vehicleCapacityAtEachDepot)
     '''
 
-    def solve(self,data, penality, maxRunningTime):
+    def solve(self,data):
         """Solve the CVRP problem."""
         # Instantiate the data problem.
 
         # Create the routing index manager.
-        self.penality = penality
-        self.maxRunningTime = maxRunningTime
+
         manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                             data['num_vehicles'], data['depot'], data['depot'])
 
