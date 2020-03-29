@@ -103,19 +103,15 @@ def get_folium_map(df,output,lat_long,st):
             folium.CircleMarker(location=loc,radius=7,icon=folium.Icon(color=color_list[count]), popup="Distribution_point").add_to(some_map)
             continue
         loc = lat_long[output['vehicle'][vehicle_id]['route_path'][0]]
-        loc = [loc[1],loc[0]]
         folium.CircleMarker(location=loc,radius=7,icon=folium.Icon(color=color_list[count]), popup ="Distribution_point").add_to(some_map)
         loc2 = lat_long[output['vehicle'][vehicle_id]['route_path'][1]]
-        loc2 = [loc2[1],loc2[0]]
         loc_p = [loc,loc2]
         folium.PolyLine(locations=loc_p, color=color_list[count]).add_to(some_map)
         arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
         for route_path_index in range(1,len(output['vehicle'][vehicle_id]['route_path'])-1):
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index]]
-            loc = [loc[1],loc[0]]
             folium.Marker(location=loc,icon=folium.Icon(color=color_list[count]),popup="Delivery point").add_to(some_map)
             loc2 = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index+1]]
-            loc2 = [loc2[1],loc2[0]]
             loc_p = [loc,loc2]
             folium.PolyLine(locations=loc_p, color=color_list[count]).add_to(some_map)	
             arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
