@@ -4,12 +4,12 @@ from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 from functools import partial
+from userexception import NoSolution
 
 
 class VrpSolver():
-    '''
     def __init__(self, penality=1000, maxRunningTime=30):
-
+        '''
         penality (type:int, default:1000)
         --------------------------------
         If solution doesn't exist, then some of the distination should be left.
@@ -18,10 +18,11 @@ class VrpSolver():
 
         maxRunningTime (type:int, default:30seconds)
         -------------------------------------
-        If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds) 
+        If optimization takes very long amount of time, then it will be killed after exceeding maxRunningTime (in seconds)
+        '''
+
         self.penality = penality
         self.maxRunningTime = maxRunningTime
-    '''
 
     def print_solution(self,data, manager, routing, solution):
         """Prints solution on console."""
@@ -66,18 +67,12 @@ class VrpSolver():
         print('Total load of all routes: {}'.format(total_load))
         return json_data
     
-
-    '''
-    def solve(self, distanceMatrix, demandVector, depot, vehicleCapacityAtEachDepot)
-    '''
-
-    def solve(self,data, penality, maxRunningTime):
+    def solve(self,data):
         """Solve the CVRP problem."""
         # Instantiate the data problem.
 
         # Create the routing index manager.
-        self.penality = penality
-        self.maxRunningTime = maxRunningTime
+
         manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                             data['num_vehicles'], data['depot'], data['depot'])
 
@@ -101,11 +96,30 @@ class VrpSolver():
         def vehicle_distance_callback(vehicle, from_index, to_index):
     	    from_node = manager.IndexToNode(from_index)
     	    to_node = manager.IndexToNode(to_index)
+    	    return data['distance_matrix'][from_node][to_node]
+        vehicle_distance_transits = [routing.RegisterTransitCallback(partial(vehicle_distance_callback,v)) for v in range(0,data['num_vehicles'])]
+        vehicle_distance_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_distance_transits, range(0, data['num_vehicles']))]
+        routing.AddDimensionWithVehicleTransits(vehicle_distance_transits,0, 300000, True, "distance")
+        cost_dimension = routing.GetDimensionOrDie("distance")
+
+        def vehicle_cost_callback(vehicle, from_index, to_index):
+    	    from_node = manager.IndexToNode(from_index)
+    	    to_node = manager.IndexToNode(to_index)
     	    return data['distance_matrix'][from_node][to_node]*data['vehicle_costs'][vehicle]
-        vehicle_transits = [routing.RegisterTransitCallback(partial(vehicle_distance_callback,v)) for v in range(0,data['num_vehicles'])]
-        vehicle_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_transits, range(0, data['num_vehicles']))]
-        routing.AddDimensionWithVehicleTransits(vehicle_transits,0, 300000, True, "Cost")
+        vehicle_cost_transits = [routing.RegisterTransitCallback(partial(vehicle_cost_callback,v)) for v in range(0,data['num_vehicles'])]
+        vehicle_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_cost_transits, range(0, data['num_vehicles']))]
+        routing.AddDimensionWithVehicleTransits(vehicle_cost_transits,0, 300000, True, "Cost")
         cost_dimension = routing.GetDimensionOrDie("Cost")
+
+        def vehicle_time_callback(vehicle, from_index, to_index):
+    	    from_node = manager.IndexToNode(from_index)
+    	    to_node = manager.IndexToNode(to_index)
+    	    return data['distance_matrix'][from_node][to_node]/data['vehicle_speed'][vehicle]
+        vehicle_time_transits = [routing.RegisterTransitCallback(partial(vehicle_time_callback,v)) for v in range(0,data['num_vehicles'])]
+        vehicle_time_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_time_transits, range(0, data['num_vehicles']))]
+        routing.AddDimensionWithVehicleTransits(vehicle_time_transits,0, 500, True, "time")
+        cost_dimension = routing.GetDimensionOrDie("time")
+
 
 
         # Add Capacity constraint.
@@ -152,3 +166,4 @@ class VrpSolver():
             return(json_data)
         else:
             print("Solution doesn't exist")
+            raise(NoSolution("Soltution not found"))

@@ -1,63 +1,30 @@
 {
 	"distribution_pts":[
 		{
-		"address":"PSG College of technolog, coimbatore",
+		"address":"PSG college of tech address,Avinashi Rd, Peelamedu, Coimbatore, Tamil Nadu 641004",
 		"vehicle_capacity":[100,75],
-		"vehicle_cost":[2,1]
+		"vehicle_cost":[2,1],
+		"vehicle_speed":[0.3,1]
 		},
 		{
-		"address":"Indian Institute of Technology Madras",
+		"address":"IIT roorkee,Roorkee - Haridwar Highway, Roorkee, Uttarakhand 247667",
 		"vehicle_capacity":[150],
-		"vehicle_cost":[3]
-		},
-		{
-		"address":"Indian Institute of Technology Bombay",
-		"vehicle_capacity":[100,75,100],
-		"vehicle_cost":[2,1,4]
-		},
-		{
-		"address":"Indian Institute of Technology Kharagpur",
-		"vehicle_capacity":[50],
-		"vehicle_cost":[4]
-		},
-		{
-		"address":"Indian Institute of Technology Kanpur",
-		"vehicle_capacity":[90,75,65,100],
-		"vehicle_cost":[6,5,2,7]
+		"vehicle_cost":[3],
+		"vehicle_speed":[1]
 		}
 	],
 	"delivery_pts":[
 		{
-		"address":"Indian Institute of Technology Roorkee",
-		"demand":45
-		},
-		{
-		"address":"Indian Institute of Technology Guwahati",
+		"address":"IIT bombay,Search Results Main Gate Rd, IIT Area, Powai, Mumbai, Maharashtra 400076",
 		"demand":15
 		},
 		{
-		"address":"Indian Institute of Technology Hyderabad",
+		"address":"Bits Pilani, Shamirpet-Keesara Road, Jawahar Nagar, Shameerpet, Hyderabad, Telangana 500078",
+		"demand":15
+		},
+		{
+		"address":"IIT Delhi,IIT Campus, Hauz Khas, New Delhi, Delhi 110016",
 		"demand":35
-		},
-		{
-		"address":"National Institute of Technology Tiruchirappalli",
-		"demand":45
-		},
-		{
-		"address":"Banaras Hindu University (BHU), Varanasi",
-		"demand":50
-		},
-		{
-		"address":"Jadavpur University, Kolkata",
-		"demand":10
-		},
-		{
-		"address":"Amrita Vishwa Vidyapeetham, Coimbatore",
-		"demand":90
-		},
-		{
-		"address":"Manipal Academy of Higher Education-Manipal",
-		"demand":60
 		}
 	]
 }

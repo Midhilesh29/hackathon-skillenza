@@ -18,6 +18,9 @@ def get_lat_long(data):
     query = form_query(data)
     r = requests.post(link,json=query,headers=headers)
     response = loads(r.text)
+    print("geoencoding value:")
+    print(response)
+    print("\n")
     final_data = dict()
     final_data["lat_long"] = list()
     final_data["known_address"] = list()
@@ -32,7 +35,7 @@ def get_lat_long(data):
                 except:
                     final_data["unknown_address"].append(batch_item['response']['summary']['query'])
                     continue
-                final_data["lat_long"].append([result['position']["lat"],result['position']["long"]])
+                final_data["lat_long"].append([result['position']["lat"],result['position']["lon"]])
                 final_data["known_address"].append(batch_item['response']['summary']['query'])
             else:
                 final_data["unknown_address"].append(data[count])
