@@ -22,7 +22,7 @@ def get_distance_matrix(data,):
         for batch_item in response["batchItems"]:
             if batch_item['statusCode'] == 200:
                 try:
-                    final_data["distance"].append(batch_item['response']['routes'][0]['summary']["lengthInMeters"])
+                    final_data["distance"].append(batch_item['response']['routes'][0]['summary']["lengthInMeters"]*0.001)
                 except:
                     final_data["distance"].append(None)
                     continue
@@ -35,6 +35,6 @@ test_data = [
         [[47.639987,-122.128384],[47.621252,-1000.184408]]
 	]
 
-print(get_distance_matrix(test_data))
+#print(get_distance_matrix(test_data))
 
 
