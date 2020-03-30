@@ -35,7 +35,7 @@ def get_lat_long(data):
                 except:
                     final_data["unknown_address"].append(batch_item['response']['summary']['query'])
                     continue
-                final_data["lat_long"].append([result['position']["lat"],result['position']["lon"]])
+                final_data["lat_long"].append([result['position']["lon"],result['position']["lat"]])
                 final_data["known_address"].append(batch_item['response']['summary']['query'])
             else:
                 final_data["unknown_address"].append(data[count])
