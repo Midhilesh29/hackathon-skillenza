@@ -29,6 +29,18 @@ def get_solution(Input):
     distribution_address_data = get_lat_long(distribution_address)
     delivery_address_data = get_lat_long(delivery_address)
 
+    '''
+    cache data
+
+    
+    distribution_address_data = {'lat_long': [[77.01372,11.02543], [77.87545,29.85297]], 
+    'known_address': ['psg college of tech address avinashi rd peelamedu coimbatore tamil nadu 641004', 'iit roorkee roorkee haridwar highway roorkee uttarakhand 247667'], 
+    'unknown_address': []}
+    delivery_address_data = {'lat_long': [[72.91116,19.13393], [78.56615,17.57336], [77.18362,28.54057]], 
+    'known_address': ['iit bombay search results main gate rd iit area powai mumbai maharashtra 400076', 'bits pilani shamirpet keesara road jawahar nagar shameerpet hyderabad telangana 500078', 'iit delhi iit campus hauz khas new delhi delhi 110016'], 
+    'unknown_address': []}
+    '''
+    
     unknown_address = list()
     print("\n")
     print("distribution address:", distribution_address_data)
