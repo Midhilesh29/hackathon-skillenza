@@ -8,9 +8,9 @@
 		},
 		{
 		"address":"IIT roorkee,Roorkee - Haridwar Highway, Roorkee, Uttarakhand 247667",
-		"vehicle_capacity":[150],
-		"vehicle_cost":[3],
-		"vehicle_speed":[1]
+		"vehicle_capacity":[150,75],
+		"vehicle_cost":[1,3],
+		"vehicle_speed":[0.6,2]
 		}
 	],
 	"delivery_pts":[
