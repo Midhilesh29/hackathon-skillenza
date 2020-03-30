@@ -40,8 +40,6 @@ if(file_bytes is not None):
                     print(i,j)
                     temp_data.append([lat_long[i], lat_long[j]])
           distance_temp_matrix = get_distance_matrix(temp_data)
-          #distance_temp_matrix = {'distance': [2414.938, 1190.566, 876.611, 2265.393, 1485.965, 1580.361, 183.095, 707.697, 1333.766, 1451.743]}
-          #distance_temp_matrix = {'distance': [2414.938, 1190.566, 876.611, None, 1485.965, 1580.361, 183.095, 707.697, 1333.766, 1451.743]}
           print("distance matrix:")
           print(distance_temp_matrix['distance'])
           print("\n")
