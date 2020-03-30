@@ -34,25 +34,29 @@ if(file_bytes is not None):
           st.info('Address shown below are not found!')
           st.write(unknown_address)
      else:
-          temp_data=[]
-          for i in range(len(lat_long)):
-               for j in range(i+1, len(lat_long)):
-                    print(i,j)
-                    temp_data.append([lat_long[i], lat_long[j]])
-          distance_temp_matrix = get_distance_matrix(temp_data)
-          print("distance matrix:")
-          print(distance_temp_matrix['distance'])
-          print("\n")
+          location_data={
+               "origins":{
+                    "type":"MultiPoint",
+                    "coordinates":lat_long
+               },
+               "destinations":{
+                    "type":"MultiPoint",
+                    "coordinates":lat_long
+               }
+          }
+          distance_matrix = get_distance_matrix(location_data, len(lat_long))
 
-          distance_matrix = np.zeros((len(lat_long),len(lat_long)))
-          runner = 0
-          for i in range(len(lat_long)):
-               for j in range(i+1, len(lat_long)):
-                    if(distance_temp_matrix['distance'][runner]!=None):
-                         distance_matrix[i][j] = distance_matrix[j][i] = distance_temp_matrix['distance'][runner]
-                    else:
-                         distance_matrix[i][j] = distance_matrix[j][i] = haversine(*lat_long[i], *lat_long[j])
-                    runner+=1
+          '''
+          cache Data:
+
+          
+          distance_matrix = [[1.655,2426.973,1188.234,871.528,2276.26],
+          [2426.685,0.0,1493.191,1604.636,180.83700000000002],
+          [1190.011,1486.967,0.0,701.855,1332.884],
+          [872.38,1579.133,702.914,0.126,1448.003],
+          [2267.602,180.776,1327.406,1465.724,0.0]] 
+          '''
+
 
           for i in range(len(lat_long)):
                for j in range(len(lat_long)):
