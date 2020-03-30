@@ -35,27 +35,33 @@ class VrpSolver():
             route_distance = 0
             route_load = 0
             vehicle_number = 'v'+str(vehicle_id)
+            visiting_nodes = []
+
             json_data['vehicle'][vehicle_number] = {}
             json_data['vehicle'][vehicle_number]['route_path'] = []
             json_data['vehicle'][vehicle_number]['distance'] = []
             json_data['vehicle'][vehicle_number]['capacity'] = data['vehicle_capacities'][vehicle_id]
             json_data['vehicle'][vehicle_number]['cost'] = data['vehicle_costs'][vehicle_id]
+            json_data['vehicle'][vehicle_number]['demand'] = []
             while not routing.IsEnd(index):
                 node_index = manager.IndexToNode(index)
-                json_data['vehicle'][vehicle_number]['route_path'].append(node_index)
+                visiting_nodes.append(node_index)
                 route_load += data['demands'][node_index]
+                json_data['vehicle'][vehicle_number]['demand'].append(data['demands'][node_index])
                 plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
-                previous_index = index
                 index = solution.Value(routing.NextVar(index))
-                json_data['vehicle'][vehicle_number]['distance'].append(routing.GetArcCostForVehicle(
-                    previous_index, index, vehicle_id)/data['vehicle_costs'][vehicle_id])
-                route_distance += routing.GetArcCostForVehicle(
-                    previous_index, index, vehicle_id)/data['vehicle_costs'][vehicle_id]
-            json_data['vehicle'][vehicle_number]['route_distance'] = route_distance
+                json_data['vehicle'][vehicle_number]['route_path'].append(node_index)
+
             json_data['vehicle'][vehicle_number]['route_load'] = route_load
             plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                     route_load)
             json_data['vehicle'][vehicle_number]['route_path'].append(manager.IndexToNode(index))
+
+            for i in range(len(visiting_nodes)-1):
+                json_data['vehicle'][vehicle_number]['distance'].append(data['distance_matrix'][i][i+1])
+                route_distance+=data['distance_matrix'][i][i+1]
+            json_data['vehicle'][vehicle_number]['route_distance'] = route_distance
+                
             plan_output += 'Distance of the route: {}km\n'.format(route_distance)
             plan_output += 'Load of the route: {}\n'.format(route_load)
             print(plan_output)
@@ -117,7 +123,7 @@ class VrpSolver():
     	    return data['distance_matrix'][from_node][to_node]/data['vehicle_speed'][vehicle]
         vehicle_time_transits = [routing.RegisterTransitCallback(partial(vehicle_time_callback,v)) for v in range(0,data['num_vehicles'])]
         vehicle_time_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_time_transits, range(0, data['num_vehicles']))]
-        routing.AddDimensionWithVehicleTransits(vehicle_time_transits,0, 500, True, "time")
+        routing.AddDimensionWithVehicleTransits(vehicle_time_transits,0, 5000, True, "time")
         cost_dimension = routing.GetDimensionOrDie("time")
 
 
