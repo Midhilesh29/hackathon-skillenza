@@ -61,7 +61,11 @@ We developed this as an API which gets input in the form of JSON and receives an
 1) Azure maps
 2) Azure geocoding API
 3) Azure distancematrix API
-2) WebApps
+4) WebApp for container
+5) Azure Container Registry
+
+# Other Technologies
+1) Docker
 
 # Language and libraries
 1) Streamlit - UI
