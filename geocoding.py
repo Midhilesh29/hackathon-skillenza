@@ -1,6 +1,6 @@
 import requests
 from json import loads
-link = "https://atlas.microsoft.com/search/address/batch/sync/json?api-version=1.0&subscription-key=8WNIvZx5gvryvGYpf1ZilizJCyFa4-gTfP8tXtgQ4vA"
+link = "https://atlas.microsoft.com/search/address/batch/sync/json?api-version=1.0&subscription-key="
 headers = {'Content-type': 'application/json'}
 
 
