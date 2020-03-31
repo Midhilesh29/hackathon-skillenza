@@ -7,28 +7,50 @@ from vrpsolver import VrpSolver
 from route_matrix import get_distance_matrix
 from preprocess_input_json import get_solution
 from folium_map import get_folium_map
-from math import radians, cos, sin, asin, sqrt
 from userexception import NoSolution
+import matplotlib.pyplot as plt
 
-def haversine(lon1, lat1 , lon2, lat2):
-     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-     dlon = lon2 - lon1 
-     dlat = lat2 - lat1 
-     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-     c = 2 * asin(sqrt(a)) 
-     r = 6371 # Radius of earth in kilometers. Use 3956 for miles
-     return c * r
 
-st.title('Route Optimization')
+def get_uncovered_delivery(out,address,del_len):
+    node = []
+    for v_id in out['vehicle']:
+    	node.extend(out['vehicle'][v_id]['route_path'][1:-1])
+    node = set(node)
+    all_del = list(range(del_len-1, len(address)))
+    return list(set(all_del) - set(node))
+    
 
+st.title('Vehicle Route Optimization')
+st.markdown("Welcome to mathguys' Vehicle Route Optimization website")
 file_bytes = None
 file_bytes = st.file_uploader("Upload a .json file", type=("json"))
-
+if st.checkbox("Show a input JSON structure"):
+    temp_json = {
+	"distribution_pts":[
+		   {
+		   "address": "",#Location address of distribution point (data type: string)
+		   "vehicle_capacity": [],#Contains the capacity of all the vehicles present in the distribution point(data type: list of numbers) 
+		   
+		   "vehicle_costs": [],#Contains the cost of each vehicle (i.e cost of diesel needed for each vehicle to cover 1Km) (data type: list)
+		  
+		   "vehicle_speed": [],#Contains the speed of each vehicles in (Km/hr) (data type:list)
+		   "max_time": [],#Contains the maxiumum time a vehicle can travel,(data type:list)
+		   "max_path_length": []#Contains maximum distance a vehicle can travel (data type:list)
+		   }
+	   ],
+	   "delivery_pts":[
+		   {
+		   "address": "",#Location address of distribution point (data type: string)
+		   "demand": 2#Demand needed at each location (data type:float or int)
+		   }
+	   ]
+}
+    st.json(temp_json)
 if(file_bytes is not None):
      file_str = file_bytes.read()
      Inputdata = json.loads(file_str)
 
-     demand, vehicle_capacity, vehicle_speed, vehicle_max_running_time, vehicle_max_path_length, depot, lat_long, vehicle_cost, unknown_address, address = get_solution(Inputdata)
+     demand, vehicle_capacity, vehicle_speed, vehicle_max_running_time, vehicle_max_path_length, depot, lat_long, vehicle_cost, unknown_address, address, del_len = get_solution(Inputdata)
 
      if(len(unknown_address)>0):
           st.info('Address shown below are not found!')
@@ -44,18 +66,11 @@ if(file_bytes is not None):
                     "coordinates":lat_long
                }
           }
-          #distance_matrix = get_distance_matrix(location_data, len(lat_long))
+          distance_matrix = get_distance_matrix(location_data, len(lat_long))
 
          
 
-          
-          distance_matrix = [[1.655,2426.973,1188.234,871.528,2276.26],
-          [2426.685,0.0,1493.191,1604.636,180.83700000000002],
-          [1190.011,1486.967,0.0,701.855,1332.884],
-          [872.38,1579.133,702.914,0.126,1448.003],
-          [2267.602,180.776,1327.406,1465.724,0.0]] 
-          
-
+       
 
 
           for i in range(len(lat_long)):
@@ -77,11 +92,27 @@ if(file_bytes is not None):
           solver = VrpSolver(5000,120)
           try:
                output = solver.solve(data)
-               st.title('Result:')
-               st.write(output)
+               #st.title('Result:')
+               #st.write(output)
+               uncov_del = get_uncovered_delivery(output,address,del_len)
+               get_folium_map(address,output,lat_long,st,uncov_del)
+               #st.write(address[uncov_del[0]])
+
+               labels = ['Covered Delivery Points', 'Uncovered Delivery Points']
+               sizes = [len(address)-len(uncov_del), len(uncov_del)]
+               explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+               fig1, ax1 = plt.subplots()
+               ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+	        shadow=False, startangle=90)
+               ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+               st.pyplot()
+               #st.success("Total delivery points:"+str(len(demand))+"Covered delivery points:"+str(len(address)-len(uncov_del)))
+               
+               
           except NoSolution as error:
                st.write("Solution not found")
           #st.balloons()
-          get_folium_map(address,output,lat_long,st)
+          
           
           
