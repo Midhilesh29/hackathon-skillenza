@@ -59,8 +59,8 @@ We developed this as an API which gets input in the form of JSON and receives an
 
 # Azure Technologies
 1) Azure maps
-  a) Azure geocoding API
-  b) Azure distancematrix API
+2) Azure geocoding API
+3) Azure distancematrix API
 2) WebApps
 
 # Language and libraries
@@ -71,11 +71,11 @@ We developed this as an API which gets input in the form of JSON and receives an
 
 # How to use this code
 
-Run the following command
+1) Run the following command
 ```
 streamlit run api.py
 ```
-Upload the temp.json file present in the reposiroty
-View the result shown in application
-Download the map and view on other browser (map.html)
-Click on the nodes and edges to get better information
+2) Upload the temp.json file present in the reposiroty
+3) View the result shown in application
+4) Download the map and view on other browser (map.html)
+5) Click on the nodes and edges to get better information
