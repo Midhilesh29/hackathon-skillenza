@@ -15,8 +15,10 @@ We developed this as an API which gets input in the form of JSON and receives an
 "distribution_pts":[
    {
    "address": #Location address of distribution point (data type: string),
-   "vehicle_capacity": #Contains the capacity of all the vehicles present in the distribution point (data type: list),
-   "vehicle_costs": #Contains the cost of each vehicle (i.e cost of diesel needed for each vehicle to cover 1Km) (data type: list),
+   "vehicle_capacity": #Contains the capacity of all the vehicles present in the distribution point 
+   (data type: list),
+   "vehicle_costs": #Contains the cost of each vehicle (i.e cost of diesel needed for each vehicle to cover 1Km) 
+   (data type: list),
    "vehicle_speed": #Contains the speed of each vehicles in (Km/hr) (data type:list),
    "max_time": #Contains the maxiumum time a vehicle can travel,(data type:list)
    "max_path_length": #Contains maximum distance a vehicle can travel (data type:list)
