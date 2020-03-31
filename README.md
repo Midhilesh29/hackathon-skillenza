@@ -56,6 +56,9 @@ There will a option for downloading the output map. The downloaded map contains 
 
 ## Download the map with the link present in streamlit application and view it on browser. Click on the route edge and location pins to get more information. The location pin varies for distribution and delivery points ##
 
+# Sample Ouput displayed in map
+![sample output map](output_map1.png)
+
 # Azure Technologies
 1) Azure maps
   a) Azure geocoding API
