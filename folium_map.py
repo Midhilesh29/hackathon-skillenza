@@ -87,11 +87,10 @@ def get_bearing(p1, p2):
     return bearing
 
 
-def get_folium_map(df,output,lat_long,st):
-    midpoint = (np.average(df['lat']), np.average(df['lon']))
-    center_lat = midpoint[0]
-    center_lon = midpoint[1]
-    some_map = folium.Map(location=[center_lat, center_lon], zoom_start=7)
+def get_folium_map(address,output,lat_long,st):
+    center_lat = lat_long[0][1]
+    center_lon = lat_long[0][0]
+    some_map = folium.Map(location=[center_lat, center_lon], zoom_start=4)
     
     arrows = []
     for vehicle_id in output['vehicle'].keys():
@@ -100,20 +99,37 @@ def get_folium_map(df,output,lat_long,st):
         if route_len <= 2:
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][0]]
             loc = [loc[1],loc[0]]
-            folium.CircleMarker(location=loc,radius=7,icon=folium.Icon(color=color_list[count]), popup="Distribution_point").add_to(some_map)
+            folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>Distribution_point: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
             continue
         loc = lat_long[output['vehicle'][vehicle_id]['route_path'][0]]
-        folium.CircleMarker(location=loc,radius=7,icon=folium.Icon(color=color_list[count]), popup ="Distribution_point").add_to(some_map)
+        loc = [loc[1],loc[0]]
+        folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>Distribution_point: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
+
         loc2 = lat_long[output['vehicle'][vehicle_id]['route_path'][1]]
+        loc2 = [loc2[1],loc2[0]]
         loc_p = [loc,loc2]
-        folium.PolyLine(locations=loc_p, color=color_list[count]).add_to(some_map)
+        vehicle = output['vehicle'][vehicle_id]
+        pop_text = "<b>VehicleCapacity: </b>"+str(vehicle['capacity'])+"\n<b>VehicleCost/km: </b>"+str(vehicle['cost'])
+        pop_text = pop_text  + "\n<b>RouteDistance: </b>"+str(vehicle['route_distance'])+"\n<b>CarryingLoad: </b>"+str(vehicle['route_load'])
+        pop_text = pop_text  + "\n<b>TotalTravelTime(in hrs): </b>"+str(vehicle['travel_time'])
+        folium.PolyLine(locations=loc_p, color=color_list[count],popup=pop_text).add_to(some_map)
         arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
+
         for route_path_index in range(1,len(output['vehicle'][vehicle_id]['route_path'])-1):
+
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index]]
-            folium.Marker(location=loc,icon=folium.Icon(color=color_list[count]),popup="Delivery point").add_to(some_map)
+            loc = [loc[1],loc[0]]
+            pop_del = "<b>Delivery point: </b>" + address[output['vehicle'][vehicle_id]['route_path'][route_path_index]]+"\n<b>Demand: </b>"+str(vehicle['demand'][route_path_index])
+
+            folium.Marker(location=loc,icon=folium.Icon(icon="glyphicon glyphicon-ok-sign",color=color_list[count]),popup=pop_del).add_to(some_map)
+
             loc2 = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index+1]]
+            loc2 = [loc2[1],loc2[0]]
             loc_p = [loc,loc2]
-            folium.PolyLine(locations=loc_p, color=color_list[count]).add_to(some_map)	
+            pop_text = "<b>VehicleCapacity: </b>"+str(vehicle['capacity'])+"\n<b>VehicleCost/km: </b>"+str(vehicle['cost'])
+            pop_text = pop_text  + "\n<b>RouteDistance: </b>"+str(vehicle['route_distance'])+"\n<b>CarryingLoad: </b>"+str(vehicle['route_load'])
+            pop_text = pop_text  + "\n<b>TotalTravelTime(in hrs): </b>"+str(vehicle['travel_time'])
+            folium.PolyLine(locations=loc_p, color=color_list[count],popup=pop_text).add_to(some_map)
             arrows.extend(get_arrows(locations=loc_p, n_arrows=2))
     for arrow in arrows:
         arrow.add_to(some_map)

@@ -28,7 +28,7 @@ if(file_bytes is not None):
      file_str = file_bytes.read()
      Inputdata = json.loads(file_str)
 
-     demand, vehicle_capacity, vehicle_speed, vehicle_max_running_time, vehicle_max_path_length, depot, lat_long, vehicle_cost, unknown_address = get_solution(Inputdata)
+     demand, vehicle_capacity, vehicle_speed, vehicle_max_running_time, vehicle_max_path_length, depot, lat_long, vehicle_cost, unknown_address, address = get_solution(Inputdata)
 
      if(len(unknown_address)>0):
           st.info('Address shown below are not found!')
@@ -44,10 +44,9 @@ if(file_bytes is not None):
                     "coordinates":lat_long
                }
           }
-          distance_matrix = get_distance_matrix(location_data, len(lat_long))
+          #distance_matrix = get_distance_matrix(location_data, len(lat_long))
 
-          '''
-          cache Data:
+         
 
           
           distance_matrix = [[1.655,2426.973,1188.234,871.528,2276.26],
@@ -55,7 +54,7 @@ if(file_bytes is not None):
           [1190.011,1486.967,0.0,701.855,1332.884],
           [872.38,1579.133,702.914,0.126,1448.003],
           [2267.602,180.776,1327.406,1465.724,0.0]] 
-          '''
+          
 
 
 
@@ -83,6 +82,6 @@ if(file_bytes is not None):
           except NoSolution as error:
                st.write("Solution not found")
           #st.balloons()
-          get_folium_map(df,output,lat_long,st)
+          get_folium_map(address,output,lat_long,st)
           
           
