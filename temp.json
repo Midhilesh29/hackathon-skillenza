@@ -1,11 +1,11 @@
 {
 	"distribution_pts":[
 		{
-		"address":"PSG college of tech address,Avinashi Rd, Peelamedu, Coimbatore, Tamil Nadu 641004",
+		"address":"PS",
 		"vehicle_capacity":[100,75],
 		"vehicle_cost":[33,16.5],
 		"vehicle_speed":[10,30],
-		"max_time":[100,100],
+		"max_time":[48,48],
 		"max_path_length":[5000,5000]
 		},
 		{
@@ -13,7 +13,7 @@
 		"vehicle_capacity":[150,75],
 		"vehicle_cost":[16.5,16.5],
 		"vehicle_speed":[50,30],
-		"max_time":[400,400],
+		"max_time":[48,100],
 		"max_path_length":[5000,5000]
 		}
 	],

@@ -87,23 +87,27 @@ def get_bearing(p1, p2):
     return bearing
 
 
-def get_folium_map(address,output,lat_long,st):
+def get_folium_map(address,output,lat_long,st,uncov_del):
     center_lat = lat_long[0][1]
     center_lon = lat_long[0][0]
     some_map = folium.Map(location=[center_lat, center_lon], zoom_start=4)
     
     arrows = []
+    for i in uncov_del:
+        loc=[lat_long[i][1],lat_long[i][0]]
+        folium.Marker(location=loc,icon=folium.Icon(icon="glyphicon glyphicon-remove-sign",color="red"), popup="<b>DeliveryPoint: </b>"+address[i]).add_to(some_map)
+
     for vehicle_id in output['vehicle'].keys():
         route_len = len(output['vehicle'][vehicle_id]['route_path'])
-        count = random.randint(0,17)
+        count = random.randint(0,12)
         if route_len <= 2:
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][0]]
             loc = [loc[1],loc[0]]
-            folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>Distribution_point: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
+            folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>DistributionPoint: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
             continue
         loc = lat_long[output['vehicle'][vehicle_id]['route_path'][0]]
         loc = [loc[1],loc[0]]
-        folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>Distribution_point: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
+        folium.Marker(location=loc,radius=7,icon=folium.Icon(icon="glyphicon glyphicon-home",color=color_list[count]), popup="<b>DistributionPoint: </b>"+address[output['vehicle'][vehicle_id]['route_path'][0]]).add_to(some_map)
 
         loc2 = lat_long[output['vehicle'][vehicle_id]['route_path'][1]]
         loc2 = [loc2[1],loc2[0]]
@@ -119,7 +123,7 @@ def get_folium_map(address,output,lat_long,st):
 
             loc = lat_long[output['vehicle'][vehicle_id]['route_path'][route_path_index]]
             loc = [loc[1],loc[0]]
-            pop_del = "<b>Delivery point: </b>" + address[output['vehicle'][vehicle_id]['route_path'][route_path_index]]+"\n<b>Demand: </b>"+str(vehicle['demand'][route_path_index])
+            pop_del = "<b>Delivery Point: </b>" + address[output['vehicle'][vehicle_id]['route_path'][route_path_index]]+"\n<b>Demand: </b>"+str(vehicle['demand'][route_path_index])
 
             folium.Marker(location=loc,icon=folium.Icon(icon="glyphicon glyphicon-ok-sign",color=color_list[count]),popup=pop_del).add_to(some_map)
 
@@ -138,6 +142,6 @@ def get_folium_map(address,output,lat_long,st):
     f=codecs.open(fname, 'r')
     b64 = base64.b64encode(f.read().encode()).decode()
     st.info('Download and open the Map (HTML file) in a browser')
-    st.markdown('<a href="data:@file/html;base64,{}" download="map.html">Download the Map</a>'.format(b64), unsafe_allow_html=True)
+    st.markdown('<a href="data:@file/html;base64,{}" download="map.html">Click here to download the Map</a>'.format(b64), unsafe_allow_html=True)
     
 

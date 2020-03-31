@@ -31,9 +31,9 @@ def get_solution(Input):
         demand.append(values['demand'])
     # geocoding
     distribution_address_data = get_lat_long(distribution_address)
-    #delivery_address_data = get_lat_long(delivery_address)
+    delivery_address_data = get_lat_long(delivery_address)
 
-    #'''
+    '''
     #cache data
 
     
@@ -43,9 +43,8 @@ def get_solution(Input):
     delivery_address_data = {'lat_long': [[72.91116,19.13393], [78.56615,17.57336], [77.18362,28.54057]], 
     'known_address': ['iit bombay search results main gate rd iit area powai mumbai maharashtra 400076', 'bits pilani shamirpet keesara road jawahar nagar shameerpet hyderabad telangana 500078', 'iit delhi iit campus hauz khas new delhi delhi 110016'], 
     'unknown_address': []}
-    
+    '''
 
-    
     unknown_address = list()
     print("\n")
     print("distribution address:", distribution_address_data)
@@ -59,4 +58,4 @@ def get_solution(Input):
     address = []
     address.extend(distribution_address)
     address.extend(delivery_address)
-    return(demand,vehicle_capacity,vehicle_speed, vehicle_max_time,vehicle_max_path_length,depot, lat_long,vehicle_cost,unknown_address,address)
+    return(demand,vehicle_capacity,vehicle_speed, vehicle_max_time,vehicle_max_path_length,depot, lat_long,vehicle_cost,unknown_address,address,len(delivery_address))
