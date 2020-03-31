@@ -141,7 +141,7 @@ def get_folium_map(address,output,lat_long,st,uncov_del):
     some_map.save(fname)
     f=codecs.open(fname, 'r')
     b64 = base64.b64encode(f.read().encode()).decode()
-    st.info('Download and open the Map (HTML file) in a browser')
+    st.info('Download and open the Map (HTML file) in a browser. Click on nodes and edges to view additional information.')
     st.markdown('<a href="data:@file/html;base64,{}" download="map.html">Click here to download the Map</a>'.format(b64), unsafe_allow_html=True)
     
 
