@@ -3,37 +3,27 @@ from json import loads
 import copy
 
 
-link = "https://atlas.microsoft.com/route/directions/batch/sync/json?api-version=1.0&subscription-key=8WNIvZx5gvryvGYpf1ZilizJCyFa4-gTfP8tXtgQ4vA"
-headers = {'Content-type': 'application/json'}
+import requests
+from json import loads
+import copy
 
-def form_query(data):
-    query = {"batchItems": []}
-    for lat_long_pair in data:
-         query["batchItems"].append({"query": "?query="+str(lat_long_pair[0][0])+','+str(lat_long_pair[0][1])+':'+str(lat_long_pair[1][0])+','+str(lat_long_pair[1][1])+"&travelMode=truck&routeType=shortest&traffic=false"})
-    return query
+link = "https://atlas.microsoft.com/route/matrix/json?subscription-key=8WNIvZx5gvryvGYpf1ZilizJCyFa4-gTfP8tXtgQ4vA&api-version=1.0&routeType=shortest"
 
-def get_distance_matrix(data,):
-    query = form_query(data)
-    r = requests.post(link,json=query,headers=headers)
-    response = loads(r.text)
-    final_data = dict()
-    final_data["distance"] = list()
-    if r.status_code == 200:
-        for batch_item in response["batchItems"]:
-            if batch_item['statusCode'] == 200:
-                try:
-                    final_data["distance"].append(batch_item['response']['routes'][0]['summary']["lengthInMeters"]*0.001)
-                except:
-                    final_data["distance"].append(None)
-                    continue
-            else:
-                final_data["distance"].append(None)
-    return final_data
-
-test_data = [
-	[[47.639987,-122.128384],[47.621252,-122.184408]],
-        [[47.639987,-122.128384],[47.621252,-1000.184408]]
-	]
+def get_distance_matrix(location_data,len):
+  r = requests.post(link,json=location_data)
+  if r.status_code == 202:
+    result = requests.get(r.headers['Location'])
+    matrix = loads(result.text)
+    #print(matrix)
+    DistanceMatrix= []
+    for i in range(len):
+      temp = []
+      for j in range(len):
+        temp.append(matrix['matrix'][i][j]['response']['routeSummary']['lengthInMeters']*0.001)
+      DistanceMatrix.append(copy.copy(temp))
+    return DistanceMatrix
+  else:
+    raise ValueError(r.content)
 
 #print(get_distance_matrix(test_data))
 
