@@ -51,8 +51,6 @@ We developed this as an API which gets input in the form of JSON and receives an
  }
 }
 ```
-There will a option for downloading the output map. The downloaded map contains the detailed visualization of generated optimzal path.
-
 
 ## Download the map with the link present in streamlit application and view it on browser. Click on the route edge and location pins to get more information. The location pin varies for distribution and delivery points ##
 
@@ -72,3 +70,12 @@ There will a option for downloading the output map. The downloaded map contains 
 4) CBC tool - Tool for branch and bound tool
 
 # How to use this code
+
+Run the following command
+```
+streamlit run api.py
+```
+Upload the temp.json file present in the reposiroty
+View the result shown in application
+Download the map and view on other browser (map.html)
+Click on the nodes and edges to get better information
