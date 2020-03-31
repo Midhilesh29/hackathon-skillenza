@@ -24,40 +24,26 @@ st.title('Vehicle Route Optimization')
 st.markdown("Welcome to mathguys' Vehicle Route Optimization website")
 file_bytes = None
 file_bytes = st.file_uploader("Upload a .json file", type=("json"))
-if st.checkbox("Show a sample input JSON structure"):
+if st.checkbox("Show a input JSON structure"):
     temp_json = {
 	"distribution_pts":[
-		{
-		"address":"PSG college of tech address,Avinashi Rd, Peelamedu, Coimbatore, Tamil Nadu 641004",
-		"vehicle_capacity":[100,75],
-		"vehicle_cost":[33,16.5],
-		"vehicle_speed":[10,30],
-		"max_time":[48,48],
-		"max_path_length":[5000,5000]
-		},
-		{
-		"address":"IIT roorkee,Roorkee - Haridwar Highway, Roorkee, Uttarakhand 247667",
-		"vehicle_capacity":[150,75],
-		"vehicle_cost":[16.5,16.5],
-		"vehicle_speed":[50,30],
-		"max_time":[48,100],
-		"max_path_length":[5000,5000]
-		}
-	],
-	"delivery_pts":[
-		{
-		"address":"IIT bombay,Search Results Main Gate Rd, IIT Area, Powai, Mumbai, Maharashtra 400076",
-		"demand":15
-		},
-		{
-		"address":"Bits Pilani, Shamirpet-Keesara Road, Jawahar Nagar, Shameerpet, Hyderabad, Telangana 500078",
-		"demand":15
-		},
-		{
-		"address":"IIT Delhi,IIT Campus, Hauz Khas, New Delhi, Delhi 110016",
-		"demand":35
-		}
-	]
+		   {
+		   "address": "",#Location address of distribution point (data type: string)
+		   "vehicle_capacity": [],#Contains the capacity of all the vehicles present in the distribution point(data type: list of numbers) 
+		   
+		   "vehicle_costs": [],#Contains the cost of each vehicle (i.e cost of diesel needed for each vehicle to cover 1Km) (data type: list)
+		  
+		   "vehicle_speed": [],#Contains the speed of each vehicles in (Km/hr) (data type:list)
+		   "max_time": [],#Contains the maxiumum time a vehicle can travel,(data type:list)
+		   "max_path_length": []#Contains maximum distance a vehicle can travel (data type:list)
+		   }
+	   ],
+	   "delivery_pts":[
+		   {
+		   "address": "",#Location address of distribution point (data type: string)
+		   "demand": 2#Demand needed at each location (data type:float or int)
+		   }
+	   ]
 }
     st.json(temp_json)
 if(file_bytes is not None):
