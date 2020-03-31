@@ -21,10 +21,10 @@ def get_uncovered_delivery(out,address,del_len):
     
 
 st.title('Vehicle Route Optimization')
-st.markdown("Welcome to mathguys' Vehicle Route Optimization website")
+st.markdown('Welcome to mathguys Vehicle Route Optimization website. Github link: <a href="https://github.com/harish-ganesh/hackathon-skillenza">routeoptim</a>', unsafe_allow_html=True)
 file_bytes = None
 file_bytes = st.file_uploader("Upload a .json file", type=("json"))
-if st.checkbox("Show a input JSON structure"):
+if st.checkbox("Show input JSON structure"):
     temp_json = {
 	"distribution_pts":[
 		   {

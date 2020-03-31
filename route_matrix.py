@@ -3,7 +3,7 @@ from json import loads
 import copy
 from math import radians, cos, sin, asin, sqrt
 
-link = "https://atlas.microsoft.com/route/matrix/json?subscription-key=8WNIvZx5gvryvGYpf1ZilizJCyFa4-gTfP8tXtgQ4vA&api-version=1.0&routeType=shortest"
+link = "https://atlas.microsoft.com/route/matrix/json?subscription-key=&api-version=1.0&routeType=shortest"
 
 def haversine(lon1, lat1 , lon2, lat2):
      lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
