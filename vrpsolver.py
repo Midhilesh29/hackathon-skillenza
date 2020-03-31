@@ -106,7 +106,10 @@ class VrpSolver():
         vehicle_distance_transits = [routing.RegisterTransitCallback(partial(vehicle_distance_callback,v)) for v in range(0,data['num_vehicles'])]
         vehicle_distance_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_distance_transits, range(0, data['num_vehicles']))]
         routing.AddDimensionWithVehicleTransits(vehicle_distance_transits,0, 300000, True, "distance")
-        cost_dimension = routing.GetDimensionOrDie("distance")
+        distance_dimension = routing.GetDimensionOrDie("distance")
+
+        for i in range(data['num_vehicles']):
+            distance_dimension.CumulVar(routing.End(i)).SetMax(data['vehicle_max_path_length'][i])
 
         def vehicle_cost_callback(vehicle, from_index, to_index):
     	    from_node = manager.IndexToNode(from_index)
@@ -124,9 +127,10 @@ class VrpSolver():
         vehicle_time_transits = [routing.RegisterTransitCallback(partial(vehicle_time_callback,v)) for v in range(0,data['num_vehicles'])]
         vehicle_time_costs = [routing.SetArcCostEvaluatorOfVehicle(t,v) for (t,v) in zip(vehicle_time_transits, range(0, data['num_vehicles']))]
         routing.AddDimensionWithVehicleTransits(vehicle_time_transits,0, 5000, True, "time")
-        cost_dimension = routing.GetDimensionOrDie("time")
+        duration_dimension = routing.GetDimensionOrDie("time")
 
-
+        for i in range(data['num_vehicles']):
+            duration_dimension.CumulVar(routing.End(i)).SetMax(data['vehicle_max_running_time'][i])
 
         # Add Capacity constraint.
         def demand_callback(from_index):

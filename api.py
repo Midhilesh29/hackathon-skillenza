@@ -28,7 +28,7 @@ if(file_bytes is not None):
      file_str = file_bytes.read()
      Inputdata = json.loads(file_str)
 
-     demand, vehicle_capacity, vehicle_speed, depot, lat_long, vehicle_cost, unknown_address = get_solution(Inputdata)
+     demand, vehicle_capacity, vehicle_speed, vehicle_max_running_time, vehicle_max_path_length, depot, lat_long, vehicle_cost, unknown_address = get_solution(Inputdata)
 
      if(len(unknown_address)>0):
           st.info('Address shown below are not found!')
@@ -58,6 +58,7 @@ if(file_bytes is not None):
           '''
 
 
+
           for i in range(len(lat_long)):
                for j in range(len(lat_long)):
                     print(distance_matrix[i][j],end=" ")
@@ -70,6 +71,8 @@ if(file_bytes is not None):
           data['num_vehicles'] = len(vehicle_capacity)
           data['depot'] = depot
           data['vehicle_costs'] = vehicle_cost
+          data['vehicle_max_running_time'] = vehicle_max_running_time
+          data['vehicle_max_path_length'] = vehicle_max_path_length
 
           #define solver with penality as 5000 and 120seconds as maximum running time
           solver = VrpSolver(5000,120)
