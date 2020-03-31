@@ -53,6 +53,9 @@ We developed this as an API which gets input in the form of JSON and receives an
 ```
 There will a option for downloading the output map. The downloaded map contains the detailed visualization of generated optimzal path.
 
+
+## Download the map with the link present in streamlit application and view it on browser. Click on the route edge and location pins to get more information. The location pin varies for distribution and delivery points ##
+
 # Azure Technologies
 1) Azure maps
   a) Azure geocoding API
