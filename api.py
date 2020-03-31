@@ -45,6 +45,7 @@ if st.checkbox("Show input JSON structure"):
 		   }
 	   ]
 }
+    st.info("See our github repo for a sample input file")
     st.json(temp_json)
 if(file_bytes is not None):
      file_str = file_bytes.read()
