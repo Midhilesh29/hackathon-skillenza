@@ -13,12 +13,16 @@ def get_solution(Input):
     depot = []
     vehicle_speed = []
     vehicle_cost = []
+    vehicle_max_time = []
+    vehicle_max_path_length = []
 
     for index, values in enumerate(Input['distribution_pts']):
         distribution_address.append(values['address'])
         vehicle_capacity.extend(values['vehicle_capacity'])
         vehicle_cost.extend(values['vehicle_cost'])
         vehicle_speed.extend(values['vehicle_speed'])
+        vehicle_max_time.extend(values['max_time'])
+        vehicle_max_path_length.extend(values['max_path_length'])
         for i in range(len(values['vehicle_capacity'])):
             depot.append(index)
         demand.append(0)
@@ -40,6 +44,7 @@ def get_solution(Input):
     'known_address': ['iit bombay search results main gate rd iit area powai mumbai maharashtra 400076', 'bits pilani shamirpet keesara road jawahar nagar shameerpet hyderabad telangana 500078', 'iit delhi iit campus hauz khas new delhi delhi 110016'], 
     'unknown_address': []}
     '''
+
     
     unknown_address = list()
     print("\n")
@@ -52,4 +57,4 @@ def get_solution(Input):
     lat_long.extend(distribution_address_data['lat_long'])
     lat_long.extend(delivery_address_data['lat_long'])
 	
-    return(demand,vehicle_capacity,vehicle_speed,depot,lat_long,vehicle_cost,unknown_address)
+    return(demand,vehicle_capacity,vehicle_speed, vehicle_max_time,vehicle_max_path_length,depot, lat_long,vehicle_cost,unknown_address)
