@@ -61,6 +61,7 @@ class VrpSolver():
                 json_data['vehicle'][vehicle_number]['distance'].append(data['distance_matrix'][i][i+1])
                 route_distance+=data['distance_matrix'][i][i+1]
             json_data['vehicle'][vehicle_number]['route_distance'] = route_distance
+            json_data['vehicle'][vehicle_number]['travel_time'] = route_distance/data['vehicle_speed'][vehicle_id]
                 
             plan_output += 'Distance of the route: {}km\n'.format(route_distance)
             plan_output += 'Load of the route: {}\n'.format(route_load)
