@@ -55,11 +55,12 @@ class VrpSolver():
             json_data['vehicle'][vehicle_number]['route_load'] = route_load
             plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                     route_load)
+            visiting_nodes.append(manager.IndexToNode(index))
             json_data['vehicle'][vehicle_number]['route_path'].append(manager.IndexToNode(index))
 
             for i in range(len(visiting_nodes)-1):
-                json_data['vehicle'][vehicle_number]['distance'].append(data['distance_matrix'][i][i+1])
-                route_distance+=data['distance_matrix'][i][i+1]
+                json_data['vehicle'][vehicle_number]['distance'].append(data['distance_matrix'][visiting_nodes[i]][visiting_nodes[i+1]])
+                route_distance+=data['distance_matrix'][visiting_nodes[i]][visiting_nodes[i+1]]
             json_data['vehicle'][vehicle_number]['route_distance'] = route_distance
             json_data['vehicle'][vehicle_number]['travel_time'] = route_distance/data['vehicle_speed'][vehicle_id]
                 
