@@ -1,7 +1,23 @@
 {
 	"distribution_pts":[
 		{
-		"address":"PS",
+		"address":"IIT kanpur,Kalyanpur, Kanpur, Uttar Pradesh 208016",
+		"vehicle_capacity":[100,75, 50],
+		"vehicle_cost":[33,16.5, 12],
+		"vehicle_speed":[10,30, 50],
+		"max_time":[300,120, 48],
+		"max_path_length":[5000,5000, 2000]
+		},
+		{
+		"address":"IIT bombay, Main Gate Rd, IIT Area, Powai, Mumbai, Maharashtra 400076",
+		"vehicle_capacity":[100,75, 200],
+		"vehicle_cost":[33,16.5, 41],
+		"vehicle_speed":[30,40, 20],
+		"max_time":[150,100, 200],
+		"max_path_length":[5000,5000, 3000]
+		},
+		{
+		"address":"IIT madras, Indian Institute Of Technology, Chennai, Tamil Nadu 600036",
 		"vehicle_capacity":[100,75],
 		"vehicle_cost":[33,16.5],
 		"vehicle_speed":[10,30],
@@ -9,26 +25,69 @@
 		"max_path_length":[5000,5000]
 		},
 		{
-		"address":"IIT roorkee,Roorkee - Haridwar Highway, Roorkee, Uttarakhand 247667",
+		"address":"IIT kharagpur, Kharagpur, West Bengal 721302",
+		"vehicle_capacity":[100,75, 300],
+		"vehicle_cost":[33,16.5, 16.5],
+		"vehicle_speed":[30,40, 20],
+		"max_time":[50,100, 300],
+		"max_path_length":[5000,2000, 5000]
+		},
+		{
+		"address":"IIT Hyderabad, IITH Main Road, Near NH-65, Sangareddy, Kandi, Telangana 502285",
+		"vehicle_capacity":[100,75, 200],
+		"vehicle_cost":[33,13, 16.5],
+		"vehicle_speed":[20,40, 20],
+		"max_time":[100,48, 170],
+		"max_path_length":[3000,1000, 5000]
+		},
+		{
+		"address":"PSG College of Technology, PSG College of techinology, peelamedu, coimbatore, TamilNadu 641004",
 		"vehicle_capacity":[150,75],
 		"vehicle_cost":[16.5,16.5],
 		"vehicle_speed":[50,30],
-		"max_time":[48,100],
+		"max_time":[48,200],
 		"max_path_length":[5000,5000]
 		}
+
 	],
 	"delivery_pts":[
 		{
-		"address":"IIT bombay,Search Results Main Gate Rd, IIT Area, Powai, Mumbai, Maharashtra 400076",
+		"address":"University Road, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
 		"demand":15
 		},
 		{
-		"address":"Bits Pilani, Shamirpet-Keesara Road, Jawahar Nagar, Shameerpet, Hyderabad, Telangana 500078",
-		"demand":15
+		"address":"Indian Statistical Institute, 203 Barrackpore Trunk Road,Kolkata 700108, India",
+		"demand":35
 		},
 		{
-		"address":"IIT Delhi,IIT Campus, Hauz Khas, New Delhi, Delhi 110016",
+		"address":"Pondicherry University, Chinna Kalapet, Kalapet, Puducherry 605014",
+		"demand":35
+		},
+		{
+		"address":"University of rajastan, Jawahar Lal Nehru Marg, Gandhi Nagar, Jaipur, Rajasthan 302004",
+		"demand":35
+		},
+		{
+		"address":"IISC, CV Raman Rd, Bengaluru, Karnataka 560012",
+		"demand":35
+		},
+		{
+		"address":"IIT bhubaneswar, Argul - Jatni Rd, Kansapada, Odisha 752050",
+		"demand":35
+		},
+
+		{
+		"address":"NISER Bhubaneswar, Tehsildar Office, Khurda, Pipli, Near, Jatni, Odisha 752050",
+		"demand":35
+		},
+		{
+		"address":"26/C, Hosur Rd, Electronics City Phase 1, Electronic City, Bengaluru, Karnataka 560100 ",
+		"demand":35
+		},
+		{
+		"address":"IIT delhi, IIT Campus, Hauz Khas, New Delhi, Delhi 110016 ",
 		"demand":35
 		}
+
 	]
 }
